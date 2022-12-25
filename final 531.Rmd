@@ -1,0 +1,317 @@
+---
+title: "test"
+author: "Ziying An"
+date: '2022-04-11'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+The data is collected during 2020.3-2020.10
+```{r}
+setwd("~/Documents/R files/STATS 531 final cases")
+library(tidyverse)
+library(pomp)
+week = seq(1,232,7)
+```
+
+
+# Model Construction
+
+The series is collected during 2020.3-2020.10. Turkey government [1] posted some restrictions during April and COVID-19 developed a new variant later that year. So we developed a SEIREIR model to simulated the process of reported infected cases. 
+
+The SEIREIR model consists of 7 states:
+
+- $S$ is the number of susceptible people who can be exposed to both original and beta variant. 
+- $E_o$ is the population exposed to the original variant. 
+- $I_o$ is the infected and infectious population of the original variant. 
+- $R_o$ is population recovered from original COVID. They can also be infected by beta variant (with a different infecting rate).
+- $E_b$ is the population exposed to the beta variant. 
+- $I_b$ is the infected and infectious population of the beta variant. 
+- $R_b$ is population recovered from beta COVID.
+
+The parameters in this model are: 
+- $\beta_o*I_o$ is the rate of transferring from $S$ to $E_o$.
+- $\beta_{or}*I_o$ is the rate of transferring from $S$ to $E_o$ after the government's restriction.
+
+- $\beta_b*I_b$ is the rate of transferring from $S$ to $E_b$.
+- $\beta_r*I_b$ is the rate of transferring from $R_o$ to $E_b$.
+- $\mu_{EI_o}$ is the rate of transferring from $E_o$ to $I_o$.
+- $\mu_{EI_b}$ is the rate of transferring from $E_b$ to $I_b$.
+- $\mu_{IR_o}$ is the rate of transferring from $I_o$ to $R_o$.
+- $\mu_{IR_r}$ is the rate of transferring from $I_o$ to $R_o$ after the government's restriction.
+- $\mu_{IR_b}$ is the rate of transferring from $I_b$ to $R_b$.
+- $\eta$ is the proportion of susceptible population in the whole population. - $k$ is a parameter to simulate the measurement process based on the latent process. 
+- $N$ is the population of Turkey. 
+
+The population transferring between the states is simulated as:
+
+
+$$dSE_o(t) ~\sim bin(S,1-exp(-Beta_o*I_o/N*dt)$$
+
+$$dEI_o(t) ~\sim bin(E_o,1-exp(-mu_{EI_o}*dt))$$
+$$dIR_o(t) ~\sim bin(I_o,1-exp(-mu_{IR_o}*dt))$$
+$$dSE_b(t) ~\sim bin(S,1-exp(-Beta_b*I_b/N*dt)$$
+
+$$dRE_b(t) ~\sim bin(R_o,1-exp(-Beta_r*I_b/N*dt)$$
+
+
+$$dEI_b(t) ~\sim bin(E_b,1-exp(-mu_{EI_b}*dt))$$
+$$dIR_b(t) ~\sim bin(I_b,1-exp(-mu_{IR_b}*dt))$$
+The state $E_b$, $I_b$ and $R_b$ are activated by adding some infected cases to $I_b$ at some time in the year. 
+
+Since Turkey took actions to fight against COVID in April, we use $\beta_{or}$ and $\mu_{IR_r}$ instead of the original parameter after the restrictions took place. 
+
+```{r}
+turkey = read.csv("covid_19_data_tr.csv")
+turkey$day = 1:nrow(turkey)
+#turkey = turkey[,-c(1,2)]
+turkey$cases = turkey$Confirmed - turkey$Deaths - turkey$Recovered
+plot(turkey$cases)
+```
+
+We implement the model as follows: 
+
+
+```{r}
+seireir_step <- Csnippet("
+  double dN_SE_o = rbinom(S,1-exp(-Beta_o*I_o/N*dt));
+  double dN_EI_o = rbinom(E_o,1-exp(-mu_EI_o*dt));
+  double dN_IR_o = rbinom(I_o,1-exp(-mu_IR_o*dt));
+  
+  if (t>35){
+    dN_SE_o = rbinom(S,1-exp(-Beta_or*I_o/N*dt));
+    dN_EI_o = rbinom(E_o,1-exp(-mu_EI_o*dt));
+    dN_IR_o = rbinom(I_o,1-exp(-mu_IR_r*dt));
+  }
+  double dN_RE_b = rbinom(R_o,1-exp(-Beta_r*I_b/N*dt));
+  double dN_SE_b = rbinom(S-dN_SE_o,1-exp(-Beta_b*I_b/N*dt));
+  double dN_EI_b = rbinom(E_b,1-exp(-mu_EI_b*dt));
+  double dN_IR_b = rbinom(I_b,1-exp(-mu_IR_b*dt));
+  double e = 0;
+  if (t == 125) e = 10;
+  S -= (dN_SE_o + dN_SE_b);
+  E_o += dN_SE_o - dN_EI_o;
+  I_o += dN_EI_o - dN_IR_o;
+  R_o += dN_IR_o - dN_RE_b;
+  E_b += dN_SE_b + dN_RE_b - dN_EI_b + e;
+  I_b += dN_EI_b - dN_IR_b;
+  R_b += dN_IR_b;
+  H += (dN_IR_o + dN_IR_b);
+")
+
+seireir_init <- Csnippet("
+  S = nearbyint(eta*N);
+  E_o = 0;
+  I_o = 100;
+  R_o = 0;
+  E_b = 0;
+  I_b = 0;
+  R_b = nearbyint((1-eta)*N);
+  H = 0;
+")
+
+dmeas <- Csnippet("
+  lik = dnbinom_mu(reports,k,rho*H,give_log);
+   
+  ")
+
+rmeas <- Csnippet("
+  reports = rnbinom_mu(k,rho*H);
+  ")
+
+turkey %>%
+  select(day,reports=cases) %>%
+  filter(day<=232) %>%
+  pomp(
+    times="day",t0=0,
+    rprocess=euler(seireir_step,delta.t=1/6),
+    rinit=seireir_init,
+    rmeasure=rmeas,
+    dmeasure=dmeas,
+    accumvars="H",
+    statenames=c("S","E_o","I_o","R_o","E_b","I_b","R_b","H"),
+    paramnames=c("Beta_o","Beta_b","Beta_r","mu_EI_o","mu_IR_o",
+                 "Beta_or","mu_IR_r",
+                 "mu_EI_b","mu_IR_b","eta","rho","k","N"),
+    params=c(Beta_o=20,Beta_b = 50,Beta_or = 1, Beta_r = 50,mu_EI_o=0.18,
+             mu_IR_o = 0.02,mu_EI_b = 0.05,mu_IR_r = 0.02, 
+             mu_IR_b=0.01,rho=0.6,k=10,eta=0.1,N=84340000)
+  ) -> measSEIREIR
+```
+
+
+Try a p-filter with the model. We can see the log likelihood is stable after t=20. The model doesn't fit the starting points well but it has good overall performance. 
+
+```{r}
+measSEIREIR %>%
+  pfilter(Np=1000) -> pf
+plot(pf)
+```
+
+Simulate the time series with some parameters and see the performance. 
+
+```{r eval=FALSE}
+measSEIREIR %>%
+simulate(
+params=c(Beta_o=20,Beta_b = 50,Beta_or = 1, Beta_r = 50,mu_EI_o=0.18,
+             mu_IR_o = 0.02,mu_EI_b = 0.05,mu_IR_r = 0.02, 
+             mu_IR_b=0.01,rho=0.6,k=10,eta=0.1,N=84340000),
+nsim=20,format="data.frame",include.data=TRUE
+) -> sims
+
+sims %>%
+ggplot(aes(x=day,y=reports,group=.id,color=.id=="data"))+
+geom_line()+
+guides(color="none")
+```
+
+```{r}
+fixed_params <- c(N=84340000, mu_IR_o = 0.05,mu_IR_r = 0.03, 
+             mu_IR_b=0.01,k=10)
+coef(measSEIREIR,names(fixed_params)) <- fixed_params
+```
+
+
+```{r}
+library(foreach)
+library(doParallel)
+registerDoParallel()
+library(doRNG)
+registerDoRNG(625904618)
+```
+
+```{r eval=FALSE}
+params <- c(Beta_o=20,Beta_b = 50,Beta_or = 1, Beta_r = 50,mu_EI_o=0.18,
+             mu_IR_o = 0.02,mu_EI_b = 0.05,mu_IR_r = 0.02, 
+             mu_IR_b=0.01,rho=0.6,k=10,eta=0.1,N=84340000)
+measSEIREIR %>%
+  pomp(
+    partrans=parameter_trans(log=c("Beta_o","Beta_b","Beta_r","Beta_or"),
+                             logit=c("rho","mu_EI_o","mu_EI_b","eta")),
+    paramnames=c("Beta_o","Beta_b","Beta_r","Beta_or","rho","mu_EI_o","mu_EI_b","eta"),
+  ) -> measSEIREIR2
+bake(file="local_search.rds",{
+  registerDoRNG(482947940)
+  foreach(i=1:20,.combine=c) %do% {
+    library(pomp)
+    library(tidyverse)
+    measSEIREIR2 %>%
+      mif2(
+        params=params,
+        Np=200, Nmif=232,
+        cooling.fraction.50=0.5,
+        rw.sd=rw.sd(Beta_o=0.003,Beta_b = 0.002,Beta_or = 0.002, 
+                    Beta_r = 0.002,mu_EI_o=0.002,mu_EI_b = 0.002,
+             rho=0.002,eta=ivp(0.001))
+      )
+  } -> mifs_local
+  mifs_local
+}) -> mifs_local
+```
+
+
+```{r eval=FALSE}
+mifs_local %>%
+  traces() %>%
+  melt() %>%
+  ggplot(aes(x=iteration,y=value,group=L1,color=factor(L1)))+
+  geom_line()+
+  guides(color="none")+
+  facet_wrap(~variable,scales="free_y")
+```
+
+
+
+```{r eval=FALSE}
+see = mifs_local %>%
+  traces() %>%
+  melt()
+foreach(mf=mifs_local,.combine=rbind) %dopar% {
+  library(pomp)
+  library(tidyverse)
+  evals <- replicate(10, logLik(pfilter(mf,Np=5000)))
+  ll <- logmeanexp(evals,se=TRUE)
+  mf %>% coef() %>% bind_rows() %>%
+    bind_cols(loglik=ll[1],loglik.se=ll[2])
+} -> local_results
+
+
+save(list = c('local_results'),file = 'local.RData')
+```
+
+```{r}
+load('local.RData')
+pairs(~loglik+Beta_o+Beta_b+Beta_or+Beta_r+mu_EI_o+mu_EI_b+
+      rho+eta,data=local_results,pch=16)
+```
+
+
+```{r}
+set.seed(2062379496)
+runif_design(
+lower = c(Beta_o=1,Beta_b = 50,Beta_or = 0.5, 
+                    Beta_r = 30,mu_EI_o=0.1,mu_EI_b = 0.03,
+             rho=0.2,eta = 0),
+
+upper=c(Beta_o=100,Beta_b = 140,Beta_or = 10, 
+                    Beta_r = 70,mu_EI_o=0.3,mu_EI_b = 0.2,
+             rho=1,eta = 1),
+nseq=160
+) -> guesses
+```
+
+```{r eval=FALSE}
+mf1 <- mifs_local[[1]]
+```
+
+```{r eval=FALSE}
+bake(file="global_search.rds",{
+  foreach(guess=iter(guesses,"row"), .combine=rbind) %dopar% {
+  library(pomp)
+  library(tidyverse)
+  mf1 %>%
+    mif2(params=c(guess,fixed_params)) %>%
+    mif2(Nmif=232) -> mf
+  replicate(
+    10,
+    mf %>% pfilter(Np=50) %>% logLik()
+    ) %>%
+    logmeanexp(se=TRUE) -> ll
+  mf %>% coef() %>% bind_rows() %>%
+    bind_cols(loglik=ll[1],loglik.se=ll[2])
+} -> results
+  results
+}) -> global_results
+
+save(list = c('global_results'),file = 'global.RData')
+```
+
+```{r}
+load('global.RData')
+global_results %>%
+  bind_rows(global_results) %>%
+  filter(is.finite(loglik)) %>%
+  arrange(-loglik) %>%
+  filter(loglik>max(loglik)-50) %>%
+  bind_rows(guesses) %>%
+  mutate(type=if_else(is.na(loglik),"guess","result")) %>%
+  arrange(type) -> all
+
+pairs(~loglik+Beta_o+Beta_b+Beta_or+Beta_r+mu_EI_o+mu_EI_b+
+      rho+eta, data=all, pch=16, cex=0.3,
+      col=ifelse(all$type=="guess",grey(0.5),"red"))
+```
+
+From the results of local and global search, the maximum log likelihood of this model is about -2400. 
+
+# References
+
+1. https://en.wikipedia.org/wiki/COVID-19_pandemic_in_Turkey#April_2020:_Restrictions_continue

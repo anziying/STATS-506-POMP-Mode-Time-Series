@@ -1,0 +1,568 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={test},
+  pdfauthor={Ziying An},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{test}
+\author{Ziying An}
+\date{2022-04-11}
+
+\begin{document}
+\maketitle
+
+The data is collected during 2020.3-2020.10
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{setwd}\NormalTok{(}\StringTok{"\textasciitilde{}/Documents/R files/STATS 531 final cases"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+\end{verbatim}
+
+\begin{verbatim}
+## v ggplot2 3.3.5     v purrr   0.3.4
+## v tibble  3.1.6     v dplyr   1.0.8
+## v tidyr   1.2.0     v stringr 1.4.0
+## v readr   2.1.2     v forcats 0.5.1
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(pomp)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 载入程辑包：'pomp'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:purrr':
+## 
+##     map
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{week }\OtherTok{=} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{232}\NormalTok{,}\DecValTok{7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{model-construction}{%
+\section{Model Construction}\label{model-construction}}
+
+The series is collected during 2020.3-2020.10. Turkey government {[}1{]}
+posted some restrictions during April and COVID-19 developed a new
+variant later that year. So we developed a SEIREIR model to simulated
+the process of reported infected cases.
+
+The SEIREIR model consists of 7 states:
+
+\begin{itemize}
+\tightlist
+\item
+  \(S\) is the number of susceptible people who can be exposed to both
+  original and beta variant.
+\item
+  \(E_o\) is the population exposed to the original variant.
+\item
+  \(I_o\) is the infected and infectious population of the original
+  variant.
+\item
+  \(R_o\) is population recovered from original COVID. They can also be
+  infected by beta variant (with a different infecting rate).
+\item
+  \(E_b\) is the population exposed to the beta variant.
+\item
+  \(I_b\) is the infected and infectious population of the beta variant.
+\item
+  \(R_b\) is population recovered from beta COVID.
+\end{itemize}
+
+The parameters in this model are: - \(\beta_o*I_o\) is the rate of
+transferring from \(S\) to \(E_o\). - \(\beta_{or}*I_o\) is the rate of
+transferring from \(S\) to \(E_o\) after the government's restriction.
+
+\begin{itemize}
+\tightlist
+\item
+  \(\beta_b*I_b\) is the rate of transferring from \(S\) to \(E_b\).
+\item
+  \(\beta_r*I_b\) is the rate of transferring from \(R_o\) to \(E_b\).
+\item
+  \(\mu_{EI_o}\) is the rate of transferring from \(E_o\) to \(I_o\).
+\item
+  \(\mu_{EI_b}\) is the rate of transferring from \(E_b\) to \(I_b\).
+\item
+  \(\mu_{IR_o}\) is the rate of transferring from \(I_o\) to \(R_o\).
+\item
+  \(\mu_{IR_r}\) is the rate of transferring from \(I_o\) to \(R_o\)
+  after the government's restriction.
+\item
+  \(\mu_{IR_b}\) is the rate of transferring from \(I_b\) to \(R_b\).
+\item
+  \(\eta\) is the proportion of susceptible population in the whole
+  population. - \(k\) is a parameter to simulate the measurement process
+  based on the latent process.
+\item
+  \(N\) is the population of Turkey.
+\end{itemize}
+
+The population transferring between the states is simulated as:
+
+\[dSE_o(t) ~\sim bin(S,1-exp(-Beta_o*I_o/N*dt)\]
+
+\[dEI_o(t) ~\sim bin(E_o,1-exp(-mu_{EI_o}*dt))\]
+\[dIR_o(t) ~\sim bin(I_o,1-exp(-mu_{IR_o}*dt))\]
+\[dSE_b(t) ~\sim bin(S,1-exp(-Beta_b*I_b/N*dt)\]
+
+\[dRE_b(t) ~\sim bin(R_o,1-exp(-Beta_r*I_b/N*dt)\]
+
+\[dEI_b(t) ~\sim bin(E_b,1-exp(-mu_{EI_b}*dt))\]
+\[dIR_b(t) ~\sim bin(I_b,1-exp(-mu_{IR_b}*dt))\] The state \(E_b\),
+\(I_b\) and \(R_b\) are activated by adding some infected cases to
+\(I_b\) at some time in the year.
+
+Since Turkey took actions to fight against COVID in April, we use
+\(\beta_{or}\) and \(\mu_{IR_r}\) instead of the original parameter
+after the restrictions took place.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{turkey }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"covid\_19\_data\_tr.csv"}\NormalTok{)}
+\NormalTok{turkey}\SpecialCharTok{$}\NormalTok{day }\OtherTok{=} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(turkey)}
+\CommentTok{\#turkey = turkey[,{-}c(1,2)]}
+\NormalTok{turkey}\SpecialCharTok{$}\NormalTok{cases }\OtherTok{=}\NormalTok{ turkey}\SpecialCharTok{$}\NormalTok{Confirmed }\SpecialCharTok{{-}}\NormalTok{ turkey}\SpecialCharTok{$}\NormalTok{Deaths }\SpecialCharTok{{-}}\NormalTok{ turkey}\SpecialCharTok{$}\NormalTok{Recovered}
+\FunctionTok{plot}\NormalTok{(turkey}\SpecialCharTok{$}\NormalTok{cases)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{final-531_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+We implement the model as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{seireir\_step }\OtherTok{\textless{}{-}} \FunctionTok{Csnippet}\NormalTok{(}\StringTok{"}
+\StringTok{  double dN\_SE\_o = rbinom(S,1{-}exp({-}Beta\_o*I\_o/N*dt));}
+\StringTok{  double dN\_EI\_o = rbinom(E\_o,1{-}exp({-}mu\_EI\_o*dt));}
+\StringTok{  double dN\_IR\_o = rbinom(I\_o,1{-}exp({-}mu\_IR\_o*dt));}
+\StringTok{  }
+\StringTok{  if (t\textgreater{}35)\{}
+\StringTok{    dN\_SE\_o = rbinom(S,1{-}exp({-}Beta\_or*I\_o/N*dt));}
+\StringTok{    dN\_EI\_o = rbinom(E\_o,1{-}exp({-}mu\_EI\_o*dt));}
+\StringTok{    dN\_IR\_o = rbinom(I\_o,1{-}exp({-}mu\_IR\_r*dt));}
+\StringTok{  \}}
+\StringTok{  double dN\_RE\_b = rbinom(R\_o,1{-}exp({-}Beta\_r*I\_b/N*dt));}
+\StringTok{  double dN\_SE\_b = rbinom(S{-}dN\_SE\_o,1{-}exp({-}Beta\_b*I\_b/N*dt));}
+\StringTok{  double dN\_EI\_b = rbinom(E\_b,1{-}exp({-}mu\_EI\_b*dt));}
+\StringTok{  double dN\_IR\_b = rbinom(I\_b,1{-}exp({-}mu\_IR\_b*dt));}
+\StringTok{  double e = 0;}
+\StringTok{  if (t == 125) e = 10;}
+\StringTok{  S {-}= (dN\_SE\_o + dN\_SE\_b);}
+\StringTok{  E\_o += dN\_SE\_o {-} dN\_EI\_o;}
+\StringTok{  I\_o += dN\_EI\_o {-} dN\_IR\_o;}
+\StringTok{  R\_o += dN\_IR\_o {-} dN\_RE\_b;}
+\StringTok{  E\_b += dN\_SE\_b + dN\_RE\_b {-} dN\_EI\_b + e;}
+\StringTok{  I\_b += dN\_EI\_b {-} dN\_IR\_b;}
+\StringTok{  R\_b += dN\_IR\_b;}
+\StringTok{  H += (dN\_IR\_o + dN\_IR\_b);}
+\StringTok{"}\NormalTok{)}
+
+\NormalTok{seireir\_init }\OtherTok{\textless{}{-}} \FunctionTok{Csnippet}\NormalTok{(}\StringTok{"}
+\StringTok{  S = nearbyint(eta*N);}
+\StringTok{  E\_o = 0;}
+\StringTok{  I\_o = 100;}
+\StringTok{  R\_o = 0;}
+\StringTok{  E\_b = 0;}
+\StringTok{  I\_b = 0;}
+\StringTok{  R\_b = nearbyint((1{-}eta)*N);}
+\StringTok{  H = 0;}
+\StringTok{"}\NormalTok{)}
+
+\NormalTok{dmeas }\OtherTok{\textless{}{-}} \FunctionTok{Csnippet}\NormalTok{(}\StringTok{"}
+\StringTok{  lik = dnbinom\_mu(reports,k,rho*H,give\_log);}
+\StringTok{   }
+\StringTok{  "}\NormalTok{)}
+
+\NormalTok{rmeas }\OtherTok{\textless{}{-}} \FunctionTok{Csnippet}\NormalTok{(}\StringTok{"}
+\StringTok{  reports = rnbinom\_mu(k,rho*H);}
+\StringTok{  "}\NormalTok{)}
+
+\NormalTok{turkey }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(day,}\AttributeTok{reports=}\NormalTok{cases) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(day}\SpecialCharTok{\textless{}=}\DecValTok{232}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pomp}\NormalTok{(}
+    \AttributeTok{times=}\StringTok{"day"}\NormalTok{,}\AttributeTok{t0=}\DecValTok{0}\NormalTok{,}
+    \AttributeTok{rprocess=}\FunctionTok{euler}\NormalTok{(seireir\_step,}\AttributeTok{delta.t=}\DecValTok{1}\SpecialCharTok{/}\DecValTok{6}\NormalTok{),}
+    \AttributeTok{rinit=}\NormalTok{seireir\_init,}
+    \AttributeTok{rmeasure=}\NormalTok{rmeas,}
+    \AttributeTok{dmeasure=}\NormalTok{dmeas,}
+    \AttributeTok{accumvars=}\StringTok{"H"}\NormalTok{,}
+    \AttributeTok{statenames=}\FunctionTok{c}\NormalTok{(}\StringTok{"S"}\NormalTok{,}\StringTok{"E\_o"}\NormalTok{,}\StringTok{"I\_o"}\NormalTok{,}\StringTok{"R\_o"}\NormalTok{,}\StringTok{"E\_b"}\NormalTok{,}\StringTok{"I\_b"}\NormalTok{,}\StringTok{"R\_b"}\NormalTok{,}\StringTok{"H"}\NormalTok{),}
+    \AttributeTok{paramnames=}\FunctionTok{c}\NormalTok{(}\StringTok{"Beta\_o"}\NormalTok{,}\StringTok{"Beta\_b"}\NormalTok{,}\StringTok{"Beta\_r"}\NormalTok{,}\StringTok{"mu\_EI\_o"}\NormalTok{,}\StringTok{"mu\_IR\_o"}\NormalTok{,}
+                 \StringTok{"Beta\_or"}\NormalTok{,}\StringTok{"mu\_IR\_r"}\NormalTok{,}
+                 \StringTok{"mu\_EI\_b"}\NormalTok{,}\StringTok{"mu\_IR\_b"}\NormalTok{,}\StringTok{"eta"}\NormalTok{,}\StringTok{"rho"}\NormalTok{,}\StringTok{"k"}\NormalTok{,}\StringTok{"N"}\NormalTok{),}
+    \AttributeTok{params=}\FunctionTok{c}\NormalTok{(}\AttributeTok{Beta\_o=}\DecValTok{20}\NormalTok{,}\AttributeTok{Beta\_b =} \DecValTok{50}\NormalTok{,}\AttributeTok{Beta\_or =} \DecValTok{1}\NormalTok{, }\AttributeTok{Beta\_r =} \DecValTok{50}\NormalTok{,}\AttributeTok{mu\_EI\_o=}\FloatTok{0.18}\NormalTok{,}
+             \AttributeTok{mu\_IR\_o =} \FloatTok{0.02}\NormalTok{,}\AttributeTok{mu\_EI\_b =} \FloatTok{0.05}\NormalTok{,}\AttributeTok{mu\_IR\_r =} \FloatTok{0.02}\NormalTok{, }
+             \AttributeTok{mu\_IR\_b=}\FloatTok{0.01}\NormalTok{,}\AttributeTok{rho=}\FloatTok{0.6}\NormalTok{,}\AttributeTok{k=}\DecValTok{10}\NormalTok{,}\AttributeTok{eta=}\FloatTok{0.1}\NormalTok{,}\AttributeTok{N=}\DecValTok{84340000}\NormalTok{)}
+\NormalTok{  ) }\OtherTok{{-}\textgreater{}}\NormalTok{ measSEIREIR}
+\end{Highlighting}
+\end{Shaded}
+
+Try a p-filter with the model. We can see the log likelihood is stable
+after t=20. The model doesn't fit the starting points well but it has
+good overall performance.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{measSEIREIR }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pfilter}\NormalTok{(}\AttributeTok{Np=}\DecValTok{1000}\NormalTok{) }\OtherTok{{-}\textgreater{}}\NormalTok{ pf}
+\FunctionTok{plot}\NormalTok{(pf)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{final-531_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+Simulate the time series with some parameters and see the performance.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{measSEIREIR }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{simulate}\NormalTok{(}
+\AttributeTok{params=}\FunctionTok{c}\NormalTok{(}\AttributeTok{Beta\_o=}\DecValTok{20}\NormalTok{,}\AttributeTok{Beta\_b =} \DecValTok{50}\NormalTok{,}\AttributeTok{Beta\_or =} \DecValTok{1}\NormalTok{, }\AttributeTok{Beta\_r =} \DecValTok{50}\NormalTok{,}\AttributeTok{mu\_EI\_o=}\FloatTok{0.18}\NormalTok{,}
+             \AttributeTok{mu\_IR\_o =} \FloatTok{0.02}\NormalTok{,}\AttributeTok{mu\_EI\_b =} \FloatTok{0.05}\NormalTok{,}\AttributeTok{mu\_IR\_r =} \FloatTok{0.02}\NormalTok{, }
+             \AttributeTok{mu\_IR\_b=}\FloatTok{0.01}\NormalTok{,}\AttributeTok{rho=}\FloatTok{0.6}\NormalTok{,}\AttributeTok{k=}\DecValTok{10}\NormalTok{,}\AttributeTok{eta=}\FloatTok{0.1}\NormalTok{,}\AttributeTok{N=}\DecValTok{84340000}\NormalTok{),}
+\AttributeTok{nsim=}\DecValTok{20}\NormalTok{,}\AttributeTok{format=}\StringTok{"data.frame"}\NormalTok{,}\AttributeTok{include.data=}\ConstantTok{TRUE}
+\NormalTok{) }\OtherTok{{-}\textgreater{}}\NormalTok{ sims}
+
+\NormalTok{sims }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{day,}\AttributeTok{y=}\NormalTok{reports,}\AttributeTok{group=}\NormalTok{.id,}\AttributeTok{color=}\NormalTok{.id}\SpecialCharTok{==}\StringTok{"data"}\NormalTok{))}\SpecialCharTok{+}
+\FunctionTok{geom\_line}\NormalTok{()}\SpecialCharTok{+}
+\FunctionTok{guides}\NormalTok{(}\AttributeTok{color=}\StringTok{"none"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fixed\_params }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{N=}\DecValTok{84340000}\NormalTok{, }\AttributeTok{mu\_IR\_o =} \FloatTok{0.05}\NormalTok{,}\AttributeTok{mu\_IR\_r =} \FloatTok{0.03}\NormalTok{, }
+             \AttributeTok{mu\_IR\_b=}\FloatTok{0.01}\NormalTok{,}\AttributeTok{k=}\DecValTok{10}\NormalTok{)}
+\FunctionTok{coef}\NormalTok{(measSEIREIR,}\FunctionTok{names}\NormalTok{(fixed\_params)) }\OtherTok{\textless{}{-}}\NormalTok{ fixed\_params}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: in 'coef<-': names of 'value' are being discarded.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(foreach)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 载入程辑包：'foreach'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:purrr':
+## 
+##     accumulate, when
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(doParallel)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 载入需要的程辑包：iterators
+\end{verbatim}
+
+\begin{verbatim}
+## 载入需要的程辑包：parallel
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{registerDoParallel}\NormalTok{()}
+\FunctionTok{library}\NormalTok{(doRNG)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 载入需要的程辑包：rngtools
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{registerDoRNG}\NormalTok{(}\DecValTok{625904618}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{params }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{Beta\_o=}\DecValTok{20}\NormalTok{,}\AttributeTok{Beta\_b =} \DecValTok{50}\NormalTok{,}\AttributeTok{Beta\_or =} \DecValTok{1}\NormalTok{, }\AttributeTok{Beta\_r =} \DecValTok{50}\NormalTok{,}\AttributeTok{mu\_EI\_o=}\FloatTok{0.18}\NormalTok{,}
+             \AttributeTok{mu\_IR\_o =} \FloatTok{0.02}\NormalTok{,}\AttributeTok{mu\_EI\_b =} \FloatTok{0.05}\NormalTok{,}\AttributeTok{mu\_IR\_r =} \FloatTok{0.02}\NormalTok{, }
+             \AttributeTok{mu\_IR\_b=}\FloatTok{0.01}\NormalTok{,}\AttributeTok{rho=}\FloatTok{0.6}\NormalTok{,}\AttributeTok{k=}\DecValTok{10}\NormalTok{,}\AttributeTok{eta=}\FloatTok{0.1}\NormalTok{,}\AttributeTok{N=}\DecValTok{84340000}\NormalTok{)}
+\NormalTok{measSEIREIR }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pomp}\NormalTok{(}
+    \AttributeTok{partrans=}\FunctionTok{parameter\_trans}\NormalTok{(}\AttributeTok{log=}\FunctionTok{c}\NormalTok{(}\StringTok{"Beta\_o"}\NormalTok{,}\StringTok{"Beta\_b"}\NormalTok{,}\StringTok{"Beta\_r"}\NormalTok{,}\StringTok{"Beta\_or"}\NormalTok{),}
+                             \AttributeTok{logit=}\FunctionTok{c}\NormalTok{(}\StringTok{"rho"}\NormalTok{,}\StringTok{"mu\_EI\_o"}\NormalTok{,}\StringTok{"mu\_EI\_b"}\NormalTok{,}\StringTok{"eta"}\NormalTok{)),}
+    \AttributeTok{paramnames=}\FunctionTok{c}\NormalTok{(}\StringTok{"Beta\_o"}\NormalTok{,}\StringTok{"Beta\_b"}\NormalTok{,}\StringTok{"Beta\_r"}\NormalTok{,}\StringTok{"Beta\_or"}\NormalTok{,}\StringTok{"rho"}\NormalTok{,}\StringTok{"mu\_EI\_o"}\NormalTok{,}\StringTok{"mu\_EI\_b"}\NormalTok{,}\StringTok{"eta"}\NormalTok{),}
+\NormalTok{  ) }\OtherTok{{-}\textgreater{}}\NormalTok{ measSEIREIR2}
+\FunctionTok{bake}\NormalTok{(}\AttributeTok{file=}\StringTok{"local\_search.rds"}\NormalTok{,\{}
+  \FunctionTok{registerDoRNG}\NormalTok{(}\DecValTok{482947940}\NormalTok{)}
+  \FunctionTok{foreach}\NormalTok{(}\AttributeTok{i=}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{,}\AttributeTok{.combine=}\NormalTok{c) }\SpecialCharTok{\%do\%}\NormalTok{ \{}
+    \FunctionTok{library}\NormalTok{(pomp)}
+    \FunctionTok{library}\NormalTok{(tidyverse)}
+\NormalTok{    measSEIREIR2 }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{mif2}\NormalTok{(}
+        \AttributeTok{params=}\NormalTok{params,}
+        \AttributeTok{Np=}\DecValTok{200}\NormalTok{, }\AttributeTok{Nmif=}\DecValTok{232}\NormalTok{,}
+        \AttributeTok{cooling.fraction.50=}\FloatTok{0.5}\NormalTok{,}
+        \AttributeTok{rw.sd=}\FunctionTok{rw.sd}\NormalTok{(}\AttributeTok{Beta\_o=}\FloatTok{0.003}\NormalTok{,}\AttributeTok{Beta\_b =} \FloatTok{0.002}\NormalTok{,}\AttributeTok{Beta\_or =} \FloatTok{0.002}\NormalTok{, }
+                    \AttributeTok{Beta\_r =} \FloatTok{0.002}\NormalTok{,}\AttributeTok{mu\_EI\_o=}\FloatTok{0.002}\NormalTok{,}\AttributeTok{mu\_EI\_b =} \FloatTok{0.002}\NormalTok{,}
+             \AttributeTok{rho=}\FloatTok{0.002}\NormalTok{,}\AttributeTok{eta=}\FunctionTok{ivp}\NormalTok{(}\FloatTok{0.001}\NormalTok{))}
+\NormalTok{      )}
+\NormalTok{  \} }\OtherTok{{-}\textgreater{}}\NormalTok{ mifs\_local}
+\NormalTok{  mifs\_local}
+\NormalTok{\}) }\OtherTok{{-}\textgreater{}}\NormalTok{ mifs\_local}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mifs\_local }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{traces}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{melt}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{iteration,}\AttributeTok{y=}\NormalTok{value,}\AttributeTok{group=}\NormalTok{L1,}\AttributeTok{color=}\FunctionTok{factor}\NormalTok{(L1)))}\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{()}\SpecialCharTok{+}
+  \FunctionTok{guides}\NormalTok{(}\AttributeTok{color=}\StringTok{"none"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{variable,}\AttributeTok{scales=}\StringTok{"free\_y"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{see }\OtherTok{=}\NormalTok{ mifs\_local }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{traces}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{melt}\NormalTok{()}
+\FunctionTok{foreach}\NormalTok{(}\AttributeTok{mf=}\NormalTok{mifs\_local,}\AttributeTok{.combine=}\NormalTok{rbind) }\SpecialCharTok{\%dopar\%}\NormalTok{ \{}
+  \FunctionTok{library}\NormalTok{(pomp)}
+  \FunctionTok{library}\NormalTok{(tidyverse)}
+\NormalTok{  evals }\OtherTok{\textless{}{-}} \FunctionTok{replicate}\NormalTok{(}\DecValTok{10}\NormalTok{, }\FunctionTok{logLik}\NormalTok{(}\FunctionTok{pfilter}\NormalTok{(mf,}\AttributeTok{Np=}\DecValTok{5000}\NormalTok{)))}
+\NormalTok{  ll }\OtherTok{\textless{}{-}} \FunctionTok{logmeanexp}\NormalTok{(evals,}\AttributeTok{se=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  mf }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{coef}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{bind\_rows}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{bind\_cols}\NormalTok{(}\AttributeTok{loglik=}\NormalTok{ll[}\DecValTok{1}\NormalTok{],}\AttributeTok{loglik.se=}\NormalTok{ll[}\DecValTok{2}\NormalTok{])}
+\NormalTok{\} }\OtherTok{{-}\textgreater{}}\NormalTok{ local\_results}
+
+
+\FunctionTok{save}\NormalTok{(}\AttributeTok{list =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}local\_results\textquotesingle{}}\NormalTok{),}\AttributeTok{file =} \StringTok{\textquotesingle{}local.RData\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{load}\NormalTok{(}\StringTok{\textquotesingle{}local.RData\textquotesingle{}}\NormalTok{)}
+\FunctionTok{pairs}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{loglik}\SpecialCharTok{+}\NormalTok{Beta\_o}\SpecialCharTok{+}\NormalTok{Beta\_b}\SpecialCharTok{+}\NormalTok{Beta\_or}\SpecialCharTok{+}\NormalTok{Beta\_r}\SpecialCharTok{+}\NormalTok{mu\_EI\_o}\SpecialCharTok{+}\NormalTok{mu\_EI\_b}\SpecialCharTok{+}
+\NormalTok{      rho}\SpecialCharTok{+}\NormalTok{eta,}\AttributeTok{data=}\NormalTok{local\_results,}\AttributeTok{pch=}\DecValTok{16}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{final-531_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{2062379496}\NormalTok{)}
+\FunctionTok{runif\_design}\NormalTok{(}
+\AttributeTok{lower =} \FunctionTok{c}\NormalTok{(}\AttributeTok{Beta\_o=}\DecValTok{1}\NormalTok{,}\AttributeTok{Beta\_b =} \DecValTok{50}\NormalTok{,}\AttributeTok{Beta\_or =} \FloatTok{0.5}\NormalTok{, }
+                    \AttributeTok{Beta\_r =} \DecValTok{30}\NormalTok{,}\AttributeTok{mu\_EI\_o=}\FloatTok{0.1}\NormalTok{,}\AttributeTok{mu\_EI\_b =} \FloatTok{0.03}\NormalTok{,}
+             \AttributeTok{rho=}\FloatTok{0.2}\NormalTok{,}\AttributeTok{eta =} \DecValTok{0}\NormalTok{),}
+
+\AttributeTok{upper=}\FunctionTok{c}\NormalTok{(}\AttributeTok{Beta\_o=}\DecValTok{100}\NormalTok{,}\AttributeTok{Beta\_b =} \DecValTok{140}\NormalTok{,}\AttributeTok{Beta\_or =} \DecValTok{10}\NormalTok{, }
+                    \AttributeTok{Beta\_r =} \DecValTok{70}\NormalTok{,}\AttributeTok{mu\_EI\_o=}\FloatTok{0.3}\NormalTok{,}\AttributeTok{mu\_EI\_b =} \FloatTok{0.2}\NormalTok{,}
+             \AttributeTok{rho=}\DecValTok{1}\NormalTok{,}\AttributeTok{eta =} \DecValTok{1}\NormalTok{),}
+\AttributeTok{nseq=}\DecValTok{160}
+\NormalTok{) }\OtherTok{{-}\textgreater{}}\NormalTok{ guesses}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mf1 }\OtherTok{\textless{}{-}}\NormalTok{ mifs\_local[[}\DecValTok{1}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{bake}\NormalTok{(}\AttributeTok{file=}\StringTok{"global\_search.rds"}\NormalTok{,\{}
+  \FunctionTok{foreach}\NormalTok{(}\AttributeTok{guess=}\FunctionTok{iter}\NormalTok{(guesses,}\StringTok{"row"}\NormalTok{), }\AttributeTok{.combine=}\NormalTok{rbind) }\SpecialCharTok{\%dopar\%}\NormalTok{ \{}
+  \FunctionTok{library}\NormalTok{(pomp)}
+  \FunctionTok{library}\NormalTok{(tidyverse)}
+\NormalTok{  mf1 }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{mif2}\NormalTok{(}\AttributeTok{params=}\FunctionTok{c}\NormalTok{(guess,fixed\_params)) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{mif2}\NormalTok{(}\AttributeTok{Nmif=}\DecValTok{232}\NormalTok{) }\OtherTok{{-}\textgreater{}}\NormalTok{ mf}
+  \FunctionTok{replicate}\NormalTok{(}
+    \DecValTok{10}\NormalTok{,}
+\NormalTok{    mf }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{pfilter}\NormalTok{(}\AttributeTok{Np=}\DecValTok{50}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{logLik}\NormalTok{()}
+\NormalTok{    ) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{logmeanexp}\NormalTok{(}\AttributeTok{se=}\ConstantTok{TRUE}\NormalTok{) }\OtherTok{{-}\textgreater{}}\NormalTok{ ll}
+\NormalTok{  mf }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{coef}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{bind\_rows}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{bind\_cols}\NormalTok{(}\AttributeTok{loglik=}\NormalTok{ll[}\DecValTok{1}\NormalTok{],}\AttributeTok{loglik.se=}\NormalTok{ll[}\DecValTok{2}\NormalTok{])}
+\NormalTok{\} }\OtherTok{{-}\textgreater{}}\NormalTok{ results}
+\NormalTok{  results}
+\NormalTok{\}) }\OtherTok{{-}\textgreater{}}\NormalTok{ global\_results}
+
+\FunctionTok{save}\NormalTok{(}\AttributeTok{list =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}global\_results\textquotesingle{}}\NormalTok{),}\AttributeTok{file =} \StringTok{\textquotesingle{}global.RData\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{load}\NormalTok{(}\StringTok{\textquotesingle{}global.RData\textquotesingle{}}\NormalTok{)}
+\NormalTok{global\_results }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{bind\_rows}\NormalTok{(global\_results) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\FunctionTok{is.finite}\NormalTok{(loglik)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{loglik) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(loglik}\SpecialCharTok{\textgreater{}}\FunctionTok{max}\NormalTok{(loglik)}\SpecialCharTok{{-}}\DecValTok{50}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{bind\_rows}\NormalTok{(guesses) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{type=}\FunctionTok{if\_else}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(loglik),}\StringTok{"guess"}\NormalTok{,}\StringTok{"result"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(type) }\OtherTok{{-}\textgreater{}}\NormalTok{ all}
+
+\FunctionTok{pairs}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{loglik}\SpecialCharTok{+}\NormalTok{Beta\_o}\SpecialCharTok{+}\NormalTok{Beta\_b}\SpecialCharTok{+}\NormalTok{Beta\_or}\SpecialCharTok{+}\NormalTok{Beta\_r}\SpecialCharTok{+}\NormalTok{mu\_EI\_o}\SpecialCharTok{+}\NormalTok{mu\_EI\_b}\SpecialCharTok{+}
+\NormalTok{      rho}\SpecialCharTok{+}\NormalTok{eta, }\AttributeTok{data=}\NormalTok{all, }\AttributeTok{pch=}\DecValTok{16}\NormalTok{, }\AttributeTok{cex=}\FloatTok{0.3}\NormalTok{,}
+      \AttributeTok{col=}\FunctionTok{ifelse}\NormalTok{(all}\SpecialCharTok{$}\NormalTok{type}\SpecialCharTok{==}\StringTok{"guess"}\NormalTok{,}\FunctionTok{grey}\NormalTok{(}\FloatTok{0.5}\NormalTok{),}\StringTok{"red"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{final-531_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+From the results of local and global search, the maximum log likelihood
+of this model is about -2400.
+
+\hypertarget{references}{%
+\section{References}\label{references}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \url{https://en.wikipedia.org/wiki/COVID-19_pandemic_in_Turkey\#April_2020:_Restrictions_continue}
+\end{enumerate}
+
+\end{document}
